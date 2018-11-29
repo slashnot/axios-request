@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset='utf8'>
+	<meta name='viewport' content='width=device-width'>
+
+	<title>Svelte app</title>
+
+	<link rel='stylesheet' rel="text/css" href='global.css'>
+</head>
+
+<body>
+	<ax-get url="http://jsonplaceholder.typicode.com/users" token="">
+		
+	</ax-get>
+
+	<ax-post url="http://localhost:3000/users" token="">
+		<form name="test">
+			<input type="text" name="name"/>
+			<button name="submit" type="submit">Save</button>
+		</form>
+		<div slot="onSuccess">Success</div>
+		<div slot="onError">Error</div>
+	</ax-post>
+
+	<script src='bundle.js'></script>
+	<script src='myapp.js'></script>
+</body>
+
+</html>

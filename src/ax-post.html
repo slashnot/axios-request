@@ -1,0 +1,64 @@
+AX_POST
+<slot></slot>
+{#if success}
+<slot name="onSuccess"></slot>
+{/if}
+{#if error}
+<slot name="onError"></slot>
+{/if}
+<script>
+    import axios from 'axios';
+    export default {
+        tag: 'ax-post',
+        props: ['url'],
+
+        data() {
+            return {
+                loading: false,
+                success: false,
+                error: false
+            }
+        },
+
+        oncreate() {
+            let form = this.querySelector('form');
+            let formData = {};
+            form.addEventListener('submit', (data) => {
+                data.preventDefault()
+                let elm = Array.from(form.elements);
+                elm.map((e, i) => {
+                    if (e.value) {
+                        formData[encodeURIComponent(e.name)] = encodeURIComponent(e.value)
+                    }
+                })
+                this.post(this.url, formData);
+            });
+        },
+
+        methods: {
+            post(url, data, callback) {
+                // REST API Request
+                this.set({ loading: true })
+                axios.post(url, data)
+                    .then((res) => {
+                        this.set({ loading: false });
+                        this.set({ success: true });
+                        this.set({ error: false });
+                        console.log(res.data);
+                        if(callback){
+                            callback(res);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        this.set({ loading: false });
+                        this.set({ success: false });
+                        this.set({ error: true });
+                        if(callback){
+                            callback(err);
+                        }
+                    })
+            }
+        }
+    }
+</script>
