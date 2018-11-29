@@ -11,12 +11,13 @@
     "svelte-loader": "2.11.0",
     "webpack": "^4.8.3",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.9",
+    "webpack-copy-after-build-plugin": "^1.0.1"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "webpack-dev-server --content-base public",
-    "start": "npm run dev"
+    "start": "cross-env NODE_ENV=none webpack --watch"
   },
   "dependencies": {
     "axios": "^0.18.0"

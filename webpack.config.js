@@ -1,8 +1,11 @@
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+const WebpackCopyAfterBuildPlugin = require("webpack-copy-after-build-plugin");
 
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
+const none = mode === 'none';
 
 module.exports = {
 	entry: {
@@ -54,3 +57,18 @@ module.exports = {
 	],
 	devtool: prod ? false: 'source-map'
 };
+
+
+if(prod || none){
+	/*
+	Enable the following code if you want to check the bundle in other frameworks like react.
+	For development run "npm run autobuild-dev"
+	This will copy the bundle to your react app. The file path is relative.
+	*/
+	module.exports.plugins.push(
+		new WebpackCopyAfterBuildPlugin({
+			"bundle":
+			"../../react-app/src/bundle.js",
+		  })
+	)
+}
