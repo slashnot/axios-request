@@ -18,11 +18,11 @@
 		},
 
 		oncreate() {
+			const template = this.querySelector('[ax-iterator]');
 			this.store.on("CONFIG_SET", (config) => {
 				let url = "";
 				if (this.store.get().config.baseUrl) {
 					url = this.store.get().config.baseUrl + this.collection;
-					console.log(this.store.get())
 				} else if (this.url) {
 					url = this.url;
 				} else {
@@ -32,22 +32,40 @@
 				}
 				this.getAll(url);
 			});
+			this.store.on("COLLECTION_UPDATED", (coll) => {
+				this.render(template, this.store.get().collections[this.collection]);
+			})
+
 		},
 		methods: {
 			getAll(url, params) {
+				const template = this.querySelector('[ax-iterator]');
 				axios.get(url)
 					.then((res) => {
-						this.render(res.data);
+						let resource = this.store.get().collections;
+						this.store.fire("GETALL_COMPLETED", {
+							collection: this.collection,
+							data: res.data
+						});
+						resource[this.collection] = res.data;
+						this.store.set({
+							collections: resource
+						});
+						this.render(template, this.store.get().collections[this.collection]);
 					})
 			},
-			render(data) {
-				let template = this.querySelector('[ax-iterator]').outerHTML;
+			render(tpl, data) {
+				let iterator = tpl.innerHTML;
+				tpl.innerHTML = "";
+
 				let html = "";
 				data.map((item) => {
-					html += TemplateEngine(template, item);
+					html += TemplateEngine(iterator, item);
 				});
+				tpl.innerHTML = html;
+				console.log(tpl)
 				this.set({
-					html
+					html: tpl.outerHTML
 				});
 			}
 		}

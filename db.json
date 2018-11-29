@@ -1,76 +1,19 @@
 {
   "users": [
     {
-      "name": "admin",
-      "id": "01"
-    },
-    {
-      "name": "New",
-      "id": "vVcPV5A"
-    },
-    {
-      "name": "New%20User",
-      "id": "I_w7DcI"
-    },
-    {
-      "name": "wwe",
-      "id": "fEYfcQV"
-    },
-    {
-      "name": "ada",
-      "id": "s44pwgs"
-    },
-    {
-      "name": "df",
-      "id": "CtEq0xG"
-    },
-    {
-      "id": "wGxggJF"
-    },
-    {
-      "name": "New Name",
-      "id": "J5WD98w"
-    },
-    {
-      "name": "New Name",
-      "id": "zYIaplV"
-    },
-    {
-      "name": "New Name",
-      "id": "cKW7Lw8"
-    },
-    {
-      "name": "New Name",
-      "id": "9i2aTzO"
-    },
-    {
       "name": "ASAS",
-      "id": "xHDzrPG"
+      "phone": "988",
+      "id": 17
     },
     {
-      "name": "AX",
-      "id": "9PBD6hI"
+      "name": "Ram",
+      "phone": "123",
+      "id": 18
     },
     {
-      "name": "ASASAS",
-      "id": "RMFQbH9"
-    },
-    {
-      "name": "ASZ",
-      "id": "UHHH142"
-    },
-    {
-      "name": "AX_GET",
-      "id": "ykJA9s9"
-    },
-    {
-      "name": "ASAS",
-      "id": "5EgTdA9"
-    },
-    {
-      "name": "Assa",
+      "name": "sdf",
       "phone": "1212",
-      "id": "QGAWRML"
+      "id": 19
     }
   ]
 }

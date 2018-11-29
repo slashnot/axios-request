@@ -11,34 +11,33 @@
 </head>
 
 <body>
-		<ax-config>
-			{
-				"baseUrl": "http://localhost:3000/",
-				"header" : {
-					"Authorization": "Bearer sometoken"
-				}
-			}
-		</ax-config>
-		<ax-get collection="users">
-			<div slot="onSuccess">
-				<ul>
-					<li ax-iterator>-%this.name%-</li>
-				</ul>
-			</div>
-			<div slot="onError">
+	<ax-config>
+		{
+		"baseUrl": "http://localhost:3000/",
+		"header" : {
+		"Authorization": "Bearer sometoken"
+		}
+		}
+	</ax-config>
+	<ax-get collection="users">
+		<select ax-iterator>
+			<option value="-%this.name%-">-%this.name%-</option>
+		</select>
+		<div slot="onSuccess">Success</div>
+		<div slot="onError">
+			Error Happened
+		</div>
+	</ax-get>
 
-			</div>
-		</ax-get>
-	
-		<ax-post collection="users">
-			<form name="test">
-				<input type="text" name="name"/>
-				<input type="tel" name="phone"/>
-				<button name="submit" type="submit">Save</button>
-			</form>
-			<div slot="onSuccess">Success</div>
-			<div slot="onError">Error</div>
-		</ax-post>
+	<ax-post collection="users">
+		<form name="test">
+			<input type="text" name="name" />
+			<input type="tel" name="phone" />
+			<button name="submit" type="submit">Save</button>
+		</form>
+		<div slot="onSuccess">Success</div>
+		<div slot="onError">Error</div>
+	</ax-post>
 
 	<script src='bundle.js'></script>
 	<script src='myapp.js'></script>

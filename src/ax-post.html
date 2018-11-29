@@ -7,7 +7,10 @@
 {/if}
 <script>
     import axios from 'axios';
+    import store from './store';
+
     export default {
+        store: () => store,
         tag: 'ax-post',
         props: ['url', 'collection'],
 
@@ -29,7 +32,7 @@
                 let elm = Array.from(form.elements);
                 elm.map((e, i) => {
                     if (e.value) {
-                        formData[encodeURIComponent(e.name)] = encodeURIComponent(e.value)
+                        formData[e.name] = e.value;
                     }
                 })
                 if(this.collection && axios.defaults.baseUrl){
@@ -47,6 +50,7 @@
 
         methods: {
             post(url, data, callback) {
+                let resource = this.store.get().collections;
                 // REST API Request
                 this.set({ loading: true })
                 axios.post(url, data)
@@ -54,7 +58,11 @@
                         this.set({ loading: false });
                         this.set({ success: true });
                         this.set({ error: false });
-                        console.log(res.data);
+                        
+                        resource[this.collection].push(res.data);
+						this.store.set({collections: resource});
+                        this.store.fire("COLLECTION_UPDATED", this.collection);
+
                         if(callback){
                             callback(res);
                         }
