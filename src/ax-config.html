@@ -1,24 +1,38 @@
 <script>
     import axios from 'axios';
+    import store from './store'
     export default {
-        tag:'ax-config',
-        methods:{
-            config(conf){
-                if(conf.baseUrl){
+        store: () => store,
+        tag: 'ax-config',
+        methods: {
+            config(conf) {
+                if (conf.baseUrl) {
                     axios.defaults.baseUrl = conf.baseUrl;
                 }
-                if(conf.header){
-                    axios.defaults.headers={...conf.header};
+                if (conf.header) {
+                    axios.defaults.headers = { ...conf.header
+                    };
                 }
-                console.log(axios.defaults)
+                this.store.set({
+                    config: conf
+                });
+                console.log(this.store.get())
             }
         },
-        oncreate(){
-            if(this.innerHTML){
+        oncreate() {
+            if (this.innerHTML) {
                 // Get the config
                 let config = JSON.parse(this.innerHTML);
                 this.config(config);
+                this.innerHTML = "";
+                this.store.fire("CONFIG_SET", config);
             }
         }
     }
 </script>
+
+<style>
+    :global(ax-config) {
+        display: none;
+    }
+</style>

@@ -19,13 +19,21 @@
 				}
 			}
 		</ax-config>
-		<ax-get url="http://jsonplaceholder.typicode.com/users" token="">
-		
+		<ax-get collection="users">
+			<div slot="onSuccess">
+				<ul>
+					<li ax-iterator>-%this.name%-</li>
+				</ul>
+			</div>
+			<div slot="onError">
+
+			</div>
 		</ax-get>
 	
 		<ax-post collection="users">
 			<form name="test">
 				<input type="text" name="name"/>
+				<input type="tel" name="phone"/>
 				<button name="submit" type="submit">Save</button>
 			</form>
 			<div slot="onSuccess">Success</div>

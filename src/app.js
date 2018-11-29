@@ -1,6 +1,6 @@
-var TemplateEngine = function(html, options) {
-    var re = /<%([^%>]+)?%>/g, reExp = /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g, code = 'var r=[];\n', cursor = 0, match;
-    var add = function(line, js) {
+let TemplateEngine = function(html, options) {
+    let re = /-%([^%-]+)?%-/g, reExp = /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g, code = 'let r=[];\n', cursor = 0, match;
+    let add = function(line, js) {
         js? (code += line.match(reExp) ? line + '\n' : 'r.push(' + line + ');\n') :
             (code += line != '' ? 'r.push("' + line.replace(/"/g, '\\"') + '");\n' : '');
         return add;
@@ -14,16 +14,4 @@ var TemplateEngine = function(html, options) {
     return new Function(code.replace(/[\r\t\n]/g, '')).apply(options);
 }
 
-var template = 
-'My skills:' + 
-'<%if(this.showSkills) {%>' +
-    '<%for(var index in this.skills) {%>' + 
-    '<a href="#"><%this.skills[index]%></a>' +
-    '<%}%>' +
-'<%} else {%>' +
-    '<p>none</p>' +
-'<%}%>';
-console.log(TemplateEngine(template, {
-    skills: ["js", "html", "css"],
-    showSkills: true
-}));
+export default TemplateEngine;

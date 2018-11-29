@@ -1,16 +1,55 @@
-AX_GET
-<slot></slot>
-
-
+<div>
+	{@html html}
+</div>
 <script>
-	import store from './store'
+	import TemplateEngine from './app';
+	import store from './store';
+	import axios from 'axios';
+
 	export default {
 		store: () => store,
 		tag: 'ax-get',
-		props: ["url"],
+		props: ["url", "collection"],
+
+		data() {
+			return {
+				html: ""
+			}
+		},
 
 		oncreate() {
-			
+			this.store.on("CONFIG_SET", (config) => {
+				let url = "";
+				if (this.store.get().config.baseUrl) {
+					url = this.store.get().config.baseUrl + this.collection;
+					console.log(this.store.get())
+				} else if (this.url) {
+					url = this.url;
+				} else {
+					this.set({
+						error: "URL Must be defined"
+					})
+				}
+				this.getAll(url);
+			});
+		},
+		methods: {
+			getAll(url, params) {
+				axios.get(url)
+					.then((res) => {
+						this.render(res.data);
+					})
+			},
+			render(data) {
+				let template = this.querySelector('[ax-iterator]').outerHTML;
+				let html = "";
+				data.map((item) => {
+					html += TemplateEngine(template, item);
+				});
+				this.set({
+					html
+				});
+			}
 		}
 	}
 </script>
