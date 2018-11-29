@@ -1,0 +1,24 @@
+<script>
+    import axios from 'axios';
+    export default {
+        tag:'ax-config',
+        methods:{
+            config(conf){
+                if(conf.baseUrl){
+                    axios.defaults.baseUrl = conf.baseUrl;
+                }
+                if(conf.header){
+                    axios.defaults.headers={...conf.header};
+                }
+                console.log(axios.defaults)
+            }
+        },
+        oncreate(){
+            if(this.innerHTML){
+                // Get the config
+                let config = JSON.parse(this.innerHTML);
+                this.config(config);
+            }
+        }
+    }
+</script>

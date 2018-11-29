@@ -1,4 +1,3 @@
-AX_POST
 <slot></slot>
 {#if success}
 <slot name="onSuccess"></slot>
@@ -10,7 +9,7 @@ AX_POST
     import axios from 'axios';
     export default {
         tag: 'ax-post',
-        props: ['url'],
+        props: ['url', 'collection'],
 
         data() {
             return {
@@ -23,6 +22,8 @@ AX_POST
         oncreate() {
             let form = this.querySelector('form');
             let formData = {};
+            let url = "";
+
             form.addEventListener('submit', (data) => {
                 data.preventDefault()
                 let elm = Array.from(form.elements);
@@ -31,7 +32,16 @@ AX_POST
                         formData[encodeURIComponent(e.name)] = encodeURIComponent(e.value)
                     }
                 })
-                this.post(this.url, formData);
+                if(this.collection && axios.defaults.baseUrl){
+                    url = axios.defaults.baseUrl+this.collection;
+                }
+                else if(this.url){
+                    url = this.url;
+                }
+                else{
+                    this.set({error: "URL Must be defined"})
+                }
+                this.post(url, formData);
             });
         },
 
