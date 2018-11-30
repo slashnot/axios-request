@@ -13,28 +13,30 @@
 <body>
 	<ax-config>
 		{
-		"baseUrl": "http://localhost:3000/",
+		"baseUrl": "http://localhost/jwt-wordpress/wp-json/wp/v2/",
 		"header" : {
-		"Authorization": "Bearer sometoken"
+		"Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL0pXVC1Xb3JkcHJlc3MiLCJpYXQiOjE1NDM1NjIzMTYsIm5iZiI6MTU0MzU2MjMxNiwiZXhwIjoxNTQ0MTY3MTE2LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIxIn19fQ.Eq9JVty1H64zfgMhG02sMy5-ojc5uKzqUVI0rqZmqVc"
 		}
 		}
 	</ax-config>
-	<ax-get collection="users">
+	<ax-get collection="posts">
 		<select ax-iterator>
-			<option value="-%this.name%-">-%this.name%-</option>
+			<option value="-%this.title.rendered%-">-%this.title.rendered%-</option>
 		</select>
-		<div slot="onSuccess">Success</div>
+		<div slot="onLoading">LOADING....</div>
 		<div slot="onError">
 			Error Happened
 		</div>
 	</ax-get>
-
-	<ax-post collection="users">
+	
+	<ax-post collection="posts">
 		<form name="test">
-			<input type="text" name="name" />
-			<input type="tel" name="phone" />
+			<input type="text" name="title" />
+			<input type="text" name="content" />
+			<input type="text" name="status" value="publish"/>
 			<button name="submit" type="submit">Save</button>
 		</form>
+		<div slot="onLoading">LOADING....</div>
 		<div slot="onSuccess">Success</div>
 		<div slot="onError">Error</div>
 	</ax-post>

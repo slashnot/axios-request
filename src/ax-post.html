@@ -1,4 +1,7 @@
 <slot></slot>
+{#if loading}
+<slot name="onLoading"></slot>
+{/if}
 {#if success}
 <slot name="onSuccess"></slot>
 {/if}

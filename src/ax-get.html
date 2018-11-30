@@ -1,5 +1,14 @@
-<div>
+<div class="ax-get">
 	{@html html}
+	{#if loading}
+	<slot name="onLoading"></slot>
+	{/if}
+	{#if success}
+	<slot name="onSuccess"></slot>
+	{/if}
+	{#if error}
+	<slot name="onError"></slot>
+	{/if}
 </div>
 <script>
 	import TemplateEngine from './app';
@@ -13,14 +22,21 @@
 
 		data() {
 			return {
-				html: ""
+				html: "",
+				loading: true,
+				success: false,
+				error: false
 			}
 		},
 
 		oncreate() {
-			const template = this.querySelector('[ax-iterator]');
+			let iterator = "";
+			if (!iterator) {
+				iterator = this.querySelector('[ax-iterator]').innerHTML;
+			}
+
+			let url = "";
 			this.store.on("CONFIG_SET", (config) => {
-				let url = "";
 				if (this.store.get().config.baseUrl) {
 					url = this.store.get().config.baseUrl + this.collection;
 				} else if (this.url) {
@@ -32,17 +48,26 @@
 				}
 				this.getAll(url);
 			});
+
 			this.store.on("COLLECTION_UPDATED", (coll) => {
-				this.render(template, this.store.get().collections[this.collection]);
+				this.render(iterator, this.store.get().collections[this.collection]);
 			})
 
 		},
 		methods: {
 			getAll(url, params) {
-				const template = this.querySelector('[ax-iterator]');
+				let iterator = "";
+				if (!iterator) {
+					iterator = this.querySelector('[ax-iterator]').innerHTML;
+				}
+
 				axios.get(url)
 					.then((res) => {
 						let resource = this.store.get().collections;
+						this.set({ loading: false });
+						this.set({ success: true });
+						this.set({ error: false });
+
 						this.store.fire("GETALL_COMPLETED", {
 							collection: this.collection,
 							data: res.data
@@ -51,11 +76,16 @@
 						this.store.set({
 							collections: resource
 						});
-						this.render(template, this.store.get().collections[this.collection]);
+						this.render(iterator, this.store.get().collections[this.collection]);
+					})
+					.catch((err) => {
+						this.set({ loading: false });
+						this.set({ success: false });
+						this.set({ error: true });
 					})
 			},
-			render(tpl, data) {
-				let iterator = tpl.innerHTML;
+			render(iterator, data) {
+				let tpl = this.querySelector('[ax-iterator]');
 				tpl.innerHTML = "";
 
 				let html = "";
