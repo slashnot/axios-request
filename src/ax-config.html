@@ -4,29 +4,36 @@
     export default {
         store: () => store,
         tag: 'ax-config',
+        props: ['test'],
         methods: {
             config(conf) {
                 if (conf.baseUrl) {
                     axios.defaults.baseUrl = conf.baseUrl;
                 }
                 if (conf.header) {
-                    axios.defaults.headers = { ...conf.header
+                    axios.defaults.headers = {
+                        ...conf.header
                     };
                 }
                 this.store.set({
                     config: conf
                 });
-                console.log(this.store.get())
-            }
+                this.store.fire("CONFIG_SET", conf);
+            },
+            // Local Methods
+            update() {
+                if (this.innerHTML) {
+                    // Get the config
+                    let config = JSON.parse(this.innerHTML);
+                    this.config(config);
+                    this.innerHTML = "";
+                    this.store.fire("CONFIG_SET", config);
+                }
+            },
         },
+
         oncreate() {
-            if (this.innerHTML) {
-                // Get the config
-                let config = JSON.parse(this.innerHTML);
-                this.config(config);
-                this.innerHTML = "";
-                this.store.fire("CONFIG_SET", config);
-            }
+            this.addEventListener('DOMSubtreeModified', this.update);
         }
     }
 </script>

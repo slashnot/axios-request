@@ -6,8 +6,6 @@
 	<meta name='viewport' content='width=device-width'>
 
 	<title>Svelte app</title>
-
-	<link rel='stylesheet' rel="text/css" href='global.css'>
 </head>
 
 <body>
@@ -19,7 +17,7 @@
 		}
 		}
 	</ax-config>
-	<ax-get collection="posts">
+	<ax-get-all collection="posts">
 		<select ax-iterator>
 			<option value="-%this.title.rendered%-">-%this.title.rendered%-</option>
 		</select>
@@ -27,7 +25,7 @@
 		<div slot="onError">
 			Error Happened
 		</div>
-	</ax-get>
+	</ax-get-all>
 	
 	<ax-post collection="posts">
 		<form name="test">
