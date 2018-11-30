@@ -23,7 +23,7 @@
 		data() {
 			return {
 				html: "",
-				loading: true,
+				loading: false,
 				success: false,
 				error: false
 			}
@@ -61,6 +61,7 @@
 					iterator = this.querySelector('[ax-iterator]').innerHTML;
 				}
 
+				this.set({loading: true, success: false, error: false})
 				axios.get(url)
 					.then((res) => {
 						let resource = this.store.get().collections;

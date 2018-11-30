@@ -25,21 +25,21 @@
                 if (this.innerHTML) {
                     // Get the config
                     let config = JSON.parse(this.innerHTML);
-                    this.config(config);
                     this.innerHTML = "";
+                    this.config(config);
                     this.store.fire("CONFIG_SET", config);
                 }
             },
         },
-
+        
         oncreate() {
-            this.addEventListener('DOMSubtreeModified', this.update);
+            this.addEventListener('DOMSubtreeModified', this.update());
         }
     }
 </script>
 
 <style>
-    :global(ax-config) {
+    :global {
         display: none;
     }
 </style>
